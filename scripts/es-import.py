@@ -68,6 +68,13 @@ with progressbar.DataTransferBar(max_value=total_size) as progress:
                         source["log"] = { "file": { "name": logfile }}
                         source.setdefault("winlog", dict())
 
+
+                        try:
+                            source["winlog"]["computer_name"] = source["computer_name"]
+                            del source["computer_name"]
+                        except KeyError:
+                            pass
+
                         # Plain data created by nxlog is completely moved to winlog.event_data except blacklisted
                         if "EventID" in source:
                             # Move event id to appropriate location
